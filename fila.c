@@ -2,7 +2,8 @@
 #include <stdio.h>
 #include "fila.h"
 
-
+typedef struct client cliente;
+typedef struct queue fila;
 
 fila* criar_fila(){
 	fila *f= (fila*) malloc(sizeof(fila));
