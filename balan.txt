@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include "relatorioFinal.h"
-#include <stdio.h>
-#include <string.h>
+//#include <stdio.h>
+//#include <string.h>
 
 struct sbem{
   char s;
@@ -39,13 +39,6 @@ int elabora_noh_insere_noh(rel* r,int cpf){
   return 1;
 }
 
-
-
-
-
-
-
-
 rel *criar_rel_fin(){
   rel* r = (rel*) malloc(sizeof(rel));
   if(r==NULL){
@@ -57,8 +50,6 @@ rel *criar_rel_fin(){
   r->tamanho=0;
   return r;
 }
-
-
 lista_bens *criar_lista_bens(){
   lista_bens *l=(lista_bens*) malloc(sizeof(lista_bens));
   if(l==NULL){
@@ -106,11 +97,10 @@ int decoda_entrada_rel(rel *r,int c, int ct, char o, char *b){
   else{
     inserir_lista_bens(aux->lb,'T',b);
   }
-  
-  
+  /*
+  */
   return 1;
 }
-
 no*  busca_cpf_rel(rel* r, int cpf){
   if(r==NULL){
     printf("Erro 1 em busca_cpf_rel\n");
@@ -130,7 +120,6 @@ no*  busca_cpf_rel(rel* r, int cpf){
   }
   return aux;
 }
-
 int destruir_relatorio(rel *r){
   if(r==NULL){
     printf("Erro 1 em destruir_relatorio\n");
@@ -142,7 +131,6 @@ int destruir_relatorio(rel *r){
   free(r);
   return 1;
 }
-
 int destruir_no(no* node){
   if(node==NULL){
     printf("Erro 1 destruir_no\n");
@@ -154,7 +142,6 @@ int destruir_no(no* node){
   node=NULL;
   return 1;
 }
-
 int destruir_lista_bens(lista_bens* lb){
   if(lb==NULL){
     printf("Erro 1 em remover_lista_bens_inicio\n");
@@ -171,8 +158,14 @@ int destruir_lista_bens(lista_bens* lb){
   free(lb);
   return 1;
 }
-
-
+/*
+sbem elabora_sbem(char s,char *bem){
+  sbem sbbem;
+  sbbem.s=s;
+  strcpy(sbbem.bem,bem);
+  return sbbem;
+}
+*/
 int inserir_noh_no_rel_fin(rel* r,no n){
   if(r==NULL){
     printf("Erro 1 em inserir_noh_no_rel_fin\n");
@@ -231,7 +224,6 @@ int inserir_noh_no_rel_fin(rel* r,no n){
   }
   return 1;
 }
-
 int inserir_lista_bens(lista_bens* lb, char s,char *bem){
   if(lb==NULL){
     printf("Erro 1 em inserir_sbem\n");
@@ -284,7 +276,8 @@ int inserir_lista_bens(lista_bens* lb, char s,char *bem){
   //  sbem* aux2=aux->prox;
   ss->prox=aux->prox;
   aux->prox=ss;
-  
+  /*
+  */
   return 1;
 }
 
@@ -310,7 +303,6 @@ int existe_cpf_rel(rel *r,int cpf){
 
   return 0;//não existe tal cpf ainda
 }
-
 no* mostrar_cpf_ordenado(rel *r){
   if(r==NULL){
     printf("Erro 1 em mostrar_cpf_ordenado\n");
@@ -324,9 +316,8 @@ no* mostrar_cpf_ordenado(rel *r){
   }
   return r->inicio;
 }
-
 int imprimir_cpf_inicio(rel *r){
-  if(r==NULL){
+  f(r==NULL){
     printf("Erro 1 em exibir_cpf_inicio\n");
     return -1;
   }
@@ -335,23 +326,18 @@ int imprimir_cpf_inicio(rel *r){
   imprimir_bens(n->lb);
   return 1;
 }
-
 int imprimir_bens(lista_bens *lb){
   if(lb==NULL){
     printf("Erro 1 em imprimir_bens\n");
     return -1;
   }
   int cont=1;
-  char c;
   while(cont<=lb->tamanho){
-    c=lb->ini->s;
-    printf("%c %s\n",c,lb->ini->bem);
+    printf("%c %s\n",lb->s,lb->ini);
     lb->ini=lb->ini->prox;
   }
   return 1;
 }
-/*
-*/
 int remover_noh_rel_inicio(rel *r){
   if(r==NULL){
     printf("Erro 1 em remover_cpf_rel_ini\n");
@@ -387,5 +373,16 @@ int remover_lista_bens_inicio(lista_bens* lb){
   free(aux);
   return 1;
 }
+
 /*
+int remover_sbem_inicio(sbem* sb){
+  if(sb==NULL){
+    printf("Erro 1 em remover_sbem_inicio\n");
+    return -1;
+  }
+  sbem *aux=sb;
+  sb=sp->prox;
+  free(aux);
+  return 1;
+}
 */

@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "priority.h"
 #include "fila.h"
 
@@ -48,7 +49,7 @@ int elaborar_elem_adicionar_elem_pri(priority* p,int cpf, int cpf3, int priorida
 	}
 	while(aux->prox!=NULL){
 
-		if(aux->prioridade==c.prioridade){
+		if(aux->prioridade==prioridade){
 			break;
 		}
 		aux=aux->prox;
@@ -90,7 +91,7 @@ int mostrar_frente_pri(priority *p,int *cpf,int *cpf3, int* prioridade,char *o,c
 	*cpf3=c.cpf3;
 	*prioridade=c.prioridade;
 	*o=c.op;
-	strcpy(*b,c.bem);
+	strcpy(b,c.bem);
 	return 1;
 }
 cliente enviar_guiche(priority* p){

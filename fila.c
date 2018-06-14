@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "fila.h"
 
 typedef struct client cliente;
@@ -20,7 +21,7 @@ fila* destruir_fila(fila *f){
 	if(f==NULL){
 		printf("Erro 1 destruir_fila\n");
 		return f;
- }
+ 	}
 	while (f->tamanho!=0){
 		remover_cliente(f);
 		f->tamanho--;

@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-struct node{
+struct nodeh{
 	int cpfc,cpft;
 	char bem[26];
 	char op;
@@ -11,14 +11,14 @@ struct node{
 struct pilha{
 	int topo;
 	int capacidade;
-	struct node *noh;
+	struct nodeh *noh;
 };
 
 //typedef struct node no;
 //typedef struct pilha pilha;
 
-no elaborar_no(int cpfc,int cpft, char op, char* bem){
-	no n;
+noo elaborar_no(int cpfc,int cpft, char op, char* bem){
+	noo n;
 	n.cpfc=cpfc;
 	n.cpft=cpft;
 	n.op=op;
@@ -32,9 +32,9 @@ pilha* criar_pilhas(int tam,int k){
 		return p;
 	}
 	for (int i = 0; i < k; i++) {
-		p[i]->noh = (no*) malloc(sizeof(no)*tam);
+		p[i]->noh = (noo*) malloc(sizeof(noo)*tam);
 		if(p[i]->noh==NULL){
-			printf("Erro 2 em criar_pilhas\n", );
+			printf("Erro 2 em criar_pilhas\n");
 			return p;
 		}
 		p[i]->topo=-1;
@@ -80,7 +80,7 @@ int pilha_cheia(pilha *p){
 */
 int inserir_pilha_elaborar_no(pilha* p,int cpfc,int cpft, char op, char *bem){
 	//elaboro o nó e então insiro na pilha;
-	no n;
+	noo n;
 	n.cpfc=cpfc;
 	n.cpft=cpft;
 	n.op=op;
@@ -88,7 +88,7 @@ int inserir_pilha_elaborar_no(pilha* p,int cpfc,int cpft, char op, char *bem){
 	inserir_pilha(p,n);
 	return 1;
 }
-int inserir_pilha(pilha* p,no n){
+int inserir_pilha(pilha* p,noo n){
 	if(p==NULL){
 		printf("Erro 1 em inserir_pilha\n");
 		return -1;
@@ -113,12 +113,12 @@ int remover_pilha(pilha* p){
 	return 1;
 }
 int imprime_topo_pilha(pilha* p){
-	no n=topo_pilha(p);
+	noo n=topo_pilha(p);
 	printf("%s\n",n.bem);
 	return 1;
 }
-no topo_pilha(pilha* p){
-	no erro;
+noo topo_pilha(pilha* p){
+	noo erro;
 	if(p==NULL){
 		printf("Erro 1 em topo_pilha\n");
 		return erro;
@@ -133,7 +133,7 @@ int mostrar_topo_pilha(pilha* p,int *cpf, int *cpf3,char* o,char *b){
 	if(p==NULL){
 		printf("Erro 1 em mostrar_topo_pilha\n");
 	}
-	no n=topo_pilha(p);
+	noo n=topo_pilha(p);
 	*cpf=n->cpfc;
 	*cpf3=n->cpft;
 	*p=n->op;
@@ -145,7 +145,7 @@ pilha* inverter_pilha(pilha* p,int tamNoh){
 	if(aux==NULL){
 		printf("Erro 1 em inverter_pilha\n");
 	}
-	aux->noh = (no*) malloc(sizeof(no)*tamNoh);
+	aux->noh = (noo*) malloc(sizeof(noo)*tamNoh);
 	if(aux->noh==NULL){
 		printf("Erro 2 em inverter_pilha\n");
 	}

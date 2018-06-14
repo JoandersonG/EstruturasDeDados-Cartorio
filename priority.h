@@ -1,7 +1,7 @@
-
+#include "fila.h"
 #ifndef priority_h
 #define priority_h
-#include "fila.h"
+
 
 
 typedef struct prioridade priority;
