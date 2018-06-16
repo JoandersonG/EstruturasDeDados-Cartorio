@@ -91,9 +91,12 @@ int remover_cliente(fila *f){
 
 cliente mostrar_cliente(fila *f){
 	//se f->fim for NULL, então está vazia e retorna
-	cliente c;
+
 	if(f->inicio==NULL){
 		printf("Erro 1 mostrar_cliente\n");
+		cliente c;
+		c.cpf=0;
+		c.cpf3=0;
 		return c;
 	}
 	cliente *cli = f->inicio;

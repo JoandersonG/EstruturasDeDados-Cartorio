@@ -146,6 +146,7 @@ priority* destruir_fila_pri(priority* p){
 	}
 	return p;
 }
+/*
 int exibir_todos(priority* p){
 	cliente cli;
 	while(p!=NULL){
@@ -158,6 +159,7 @@ int exibir_todos(priority* p){
 	}
 	return 1;
 }
+*/
 int fila_pri_vazia(priority *p){
 	cliente c=enviar_guiche(p);
 	//se c.prioridade ==0, então entrou no caso em que não há elementos no guiche

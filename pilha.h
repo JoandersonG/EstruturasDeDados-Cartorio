@@ -4,7 +4,7 @@
 typedef struct nodeh noo;
 typedef struct pilha pilha;
 
-noo elaborar_no(int cpfc,int cpft, char op, char* bem);
+//    noo elaborar_no(int cpfc,int cpft, char op, char* bem);
 pilha* criar_pilhas(int tam,int k);
 int destruir_pilhas(pilha *p,int m);
 int destruir_pilha(pilha* p);
@@ -16,4 +16,6 @@ noo topo_pilha(pilha* p);
 int mostrar_topo_pilha(pilha* p,int *cpf, int *cpf3,char* o,char *b);
 pilha* inverter_pilha(pilha* p,int tamNoh);
 int tamanho_pilha(pilha* p);
+int pilha_vazia(pilha* p);
+pilha* endereco_pilha(pilha* p,int i);
 #endif

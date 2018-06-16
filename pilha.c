@@ -16,7 +16,14 @@ struct pilha{
 
 //typedef struct node no;
 //typedef struct pilha pilha;
-
+pilha* endereco_pilha(pilha* p,int i){
+	if(p==NULL){
+		printf("Erro 1 em endereco_pilha\n");
+		return p;
+	}
+	return &p[i];
+}
+/*
 noo elaborar_no(int cpfc,int cpft, char op, char* bem){
 	noo n;
 	n.cpfc=cpfc;
@@ -25,21 +32,25 @@ noo elaborar_no(int cpfc,int cpft, char op, char* bem){
 	strcpy(n.bem,bem);
 	return n;
 }
+*/
 pilha* criar_pilhas(int tam,int k){
 	pilha *p =(pilha*) malloc(sizeof(pilha)*k);
 	if(p==NULL){
 		printf("Erro 1 em criar_pilhas\n");
 		return p;
 	}
+	printf("Criado: %d pilhas.\n",k);
 	for (int i = 0; i < k; i++) {
-		p[i]->noh = (noo*) malloc(sizeof(noo)*tam);
-		if(p[i]->noh==NULL){
+		(p[i]).noh = (noo*) malloc(sizeof(noo)*tam);
+		if((p[i]).noh==NULL){
 			printf("Erro 2 em criar_pilhas\n");
 			return p;
 		}
-		p[i]->topo=-1;
-		p[i]->capacidade=tam;
+
+		p[i].topo=-1;
+		p[i].capacidade=tam;
 	}
+	printf("Criado: %d nós em cada pilha.\n",tam);
 	return p;
 }
 int destruir_pilhas(pilha *p,int m){
@@ -48,7 +59,7 @@ int destruir_pilhas(pilha *p,int m){
 		return -1;
 	}
 	for (int i = 0; i < m; i++) {
-		destruir_pilha(p[i]);
+		destruir_pilha(&p[i]);
 	}
 	p=NULL;
 	return 1;
@@ -99,6 +110,7 @@ int inserir_pilha(pilha* p,noo n){
 	}
 	p->topo++;
 	p->noh[p->topo]=n;
+	return 1;
 }
 int remover_pilha(pilha* p){
 	if(p==NULL){
@@ -113,18 +125,26 @@ int remover_pilha(pilha* p){
 	return 1;
 }
 int imprime_topo_pilha(pilha* p){
+	if(p==NULL){
+		printf("Erro 1 em imprime_topo_pilha\n");
+	}
 	noo n=topo_pilha(p);
-	printf("%s\n",n.bem);
+	printf("%d\n",n.cpfc);
 	return 1;
 }
 noo topo_pilha(pilha* p){
-	noo erro;
 	if(p==NULL){
 		printf("Erro 1 em topo_pilha\n");
+		noo erro;
+		erro.cpfc=0;
+		erro.cpft=0;
 		return erro;
 	}
 	if(p->topo==-1){//vazia
 		printf("Erro 2 em topo_pilha\n");
+		noo erro;
+		erro.cpfc=0;
+		erro.cpft=0;
 		return erro;
 	}
 	return p->noh[p->topo];
@@ -134,10 +154,10 @@ int mostrar_topo_pilha(pilha* p,int *cpf, int *cpf3,char* o,char *b){
 		printf("Erro 1 em mostrar_topo_pilha\n");
 	}
 	noo n=topo_pilha(p);
-	*cpf=n->cpfc;
-	*cpf3=n->cpft;
-	*p=n->op;
-	strcpy(b,p->bem);
+	*cpf=n.cpfc;
+	*cpf3=n.cpft;
+	*o=n.op;
+	strcpy(b,p->noh->bem);
 	return 1;
 }
 pilha* inverter_pilha(pilha* p,int tamNoh){
@@ -149,11 +169,17 @@ pilha* inverter_pilha(pilha* p,int tamNoh){
 	if(aux->noh==NULL){
 		printf("Erro 2 em inverter_pilha\n");
 	}
-	for (int i = 0,int j= p->topo; i <= p->topo; j++,i++) {
+	int j = p->topo;
+	for (int i = 0; i <= p->topo; j--,i++) {
 			aux->noh[i]=p->noh[j];
 	}
-	destruir_pilha(p);
-	return aux;
+	for (int i = 0; i <= p->topo; i++) {
+		p->noh[i]=aux->noh[i];
+	}
+	aux->topo=p->topo;
+	aux->capacidade=p->capacidade;
+	destruir_pilha(aux);
+	return p;
 }
 int tamanho_pilha(pilha* p){
 	if(p==NULL){
@@ -164,9 +190,11 @@ int tamanho_pilha(pilha* p){
 }
 int pilha_vazia(pilha* p){
 	if(p==NULL){
-		printf("Erro 1 em tamanho_pilha\n");
+		printf("Erro 1 em pilha_vazia\n");
 		return -1;
 	}
-	if(p->topo==-1) return 1;
+	if(p->topo==-1){
+	  return 1;
+	}
 	return 0;
 }
