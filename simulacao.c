@@ -18,7 +18,11 @@ int ler_linhas_entrada(priority* pr, int n){
   char o,b[26];
 
   for (int i = 0; i < n; i++) {
-    scanf("%d%d%d%c%s\n",&c,&ct,&p,&o,b);
+    scanf("%d %d %d %c",&c,&ct,&p,&o);
+    setbuf(stdin, NULL);
+    scanf("%[^\n]s",b);
+    setbuf(stdin, NULL);
+  //  printf("%s\n", b);
     inserir_cliente_fila(pr,c,ct,p,o,b);
   }//adicionei todos os clientes em suas filas
   return 1;
@@ -51,6 +55,7 @@ int enviar_cliente_atendimento(priority *pr,pilha *p){
   char o,b[26];
   //enviar_atend(pr,&cpf,&cpf3,&prioridade,&o,b);
   mostrar_frente_pri(pr,&cpf,&cpf3,&prioridade,&o,b);
+  //  printf("CPF: %d. Bem: %s\n",cpf,b);
   //aqui tenho todas as informações para mandar para a pilha nas vars
   if(cpf==0) return -1;//cpf 0 é ausência de cliente para enviar;
   inserir_pilha_elaborar_no(p,cpf,cpf3,o,b);
@@ -69,18 +74,23 @@ int gerar_imprimir_relatorio_parcial(pilha* p,rel *r,int k){
   printf("%d\n",k);
   //há k pilhas de tamanho tam
   pilha *aux;
+
   for (int i = 0; i < k; i++) {
     aux=endereco_pilha(p,i);
     printf("Guiche %d: %d\n",i+1,tamanho_pilha(aux));
-    aux=inverter_pilha(aux,tamanho_pilha(aux));
-    //aux é pont para a pilha invertida;
+  //  imprime_topo_pilha(aux);
+  //  aux=inverter_pilha(aux,tamanho_pilha(aux));
+  //  imprime_topo_pilha(aux);
+    //aux é ponteiro para a pilha invertida;
     while(!pilha_vazia(aux)){
       mostrar_topo_pilha(aux,&cpf,&cpf3,&o,b);
+  //      printf("Rel parc%s\n",b);
       gerar_relatorio_final(r,cpf,cpf3,o,b);
       remover_pilha(aux);
     //  imprimir:
       printf("[%d,%d,%c,%s]\n",cpf,cpf3,o,b);
     }
+
   }
   return 1;
 }
@@ -118,14 +128,13 @@ int main(){
   pilha* aux;
   //  enquanto a fila de prioridade  não estiver vazia,
   //  enviar_cliente_atendimento();
-
-  for (int i = 0; i < m; i++) {
-    while(!fila_pri_vazia(pr)){
-      aux=endereco_pilha(pi,i);
-      enviar_cliente_atendimento(pr,aux);
+  while(!fila_pri_vazia(pr)){
+    for (int i = 0; i < m; i++) {
+        if(fila_pri_vazia(pr)) break;
+        aux=endereco_pilha(pi,i);
+        enviar_cliente_atendimento(pr,aux);
     }
   }
-
   rel *r=criar_rel_fin();
 
   gerar_imprimir_relatorio_parcial(pi,r,m);

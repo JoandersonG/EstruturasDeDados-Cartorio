@@ -99,6 +99,7 @@ int decoda_entrada_rel(rel *r,int c, int ct, char o, char *b){
   //cliente:
   no* aux=busca_cpf_rel(r,c);
   inserir_lista_bens(aux->lb,o,b);
+  //printf("Em CPF: %d, está %s\n",c,b);
   //terceiro:
   aux=busca_cpf_rel(r,ct);
   if(o=='T'){
@@ -133,7 +134,7 @@ int destruir_relatorio(rel *r){
     printf("Erro 1 em destruir_relatorio\n");
     return -1;
   }
-  while (r->tamanho!=0) {
+  while (r->tamanho>1) {
     remover_noh_rel_inicio(r);
   }
   free(r);
@@ -184,6 +185,7 @@ int inserir_noh_no_rel_fin(rel* r,no n){
     r->inicio->prox=r->inicio;
     r->inicio->ant=r->inicio;
     r->tamanho++;
+  //  printf("Colocado num relatório vazio\n");
     return 1;
   }
   no *aux=r->inicio;
@@ -195,20 +197,30 @@ int inserir_noh_no_rel_fin(rel* r,no n){
     r->fim->prox=node;
     aux->ant=node;
     r->tamanho++;
+    //  printf("Colocado no inicio\n");
+    return 1;
   }
-  int aux3;
-  while(aux3<=r->tamanho && aux->cpf<node->cpf){
+  int aux3=1;
+  while(aux3<=r->tamanho && node->cpf>aux->cpf){
     aux=aux->prox;
     aux3++;
+    //printf("Rodei o while\n");
   }
-  if(aux3==r->tamanho){
+  if(node->cpf>aux->cpf){
     //coloco no fim
+    /*
     aux=r->fim;
     r->fim=node;
     node->prox=r->inicio;
     node->ant=aux;
     r->inicio->ant=node;
+    */
+    node->prox=aux;
+    aux->ant->prox=node;
+    node->ant=aux->ant;
+    aux->ant=node;
     r->tamanho++;
+    //printf("Colocado no fim\n");
     return 1;
   }
   else{
@@ -221,6 +233,7 @@ int inserir_noh_no_rel_fin(rel* r,no n){
     node->prox=aux2;
     aux2->ant=node;
     r->tamanho++;
+    //printf("Colocado no meio\n");
   }
   return 1;
 }
@@ -357,6 +370,8 @@ int remover_noh_rel_inicio(rel *r){
   r->tamanho--;
   //  para free (aux) [um nó]:
   destruir_no(aux);
+  destruir_lista_bens(aux->lb);
+  //  free(aux);
   aux=NULL;
   return 1;
 }

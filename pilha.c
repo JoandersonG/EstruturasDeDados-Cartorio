@@ -39,7 +39,7 @@ pilha* criar_pilhas(int tam,int k){
 		printf("Erro 1 em criar_pilhas\n");
 		return p;
 	}
-	printf("Criado: %d pilhas.\n",k);
+  //	printf("Criado: %d pilhas.\n",k);
 	for (int i = 0; i < k; i++) {
 		(p[i]).noh = (noo*) malloc(sizeof(noo)*tam);
 		if((p[i]).noh==NULL){
@@ -50,7 +50,7 @@ pilha* criar_pilhas(int tam,int k){
 		p[i].topo=-1;
 		p[i].capacidade=tam;
 	}
-	printf("Criado: %d nós em cada pilha.\n",tam);
+  //	printf("Criado: %d nós em cada pilha.\n",tam);
 	return p;
 }
 int destruir_pilhas(pilha *p,int m){
@@ -124,6 +124,7 @@ int remover_pilha(pilha* p){
 	p->topo--;
 	return 1;
 }
+
 int imprime_topo_pilha(pilha* p){
 	if(p==NULL){
 		printf("Erro 1 em imprime_topo_pilha\n");
@@ -170,12 +171,17 @@ pilha* inverter_pilha(pilha* p,int tamNoh){
 		printf("Erro 2 em inverter_pilha\n");
 	}
 	int j = p->topo;
+  //printf("%d\n",p->noh[p->topo].cpfc);
+	// for (size_t i = 0; i <= p->topo; i++) {
+	//
+	// }
 	for (int i = 0; i <= p->topo; j--,i++) {
 			aux->noh[i]=p->noh[j];
 	}
 	for (int i = 0; i <= p->topo; i++) {
 		p->noh[i]=aux->noh[i];
 	}
+  //printf("%d\n",p->noh[p->topo].cpfc);
 	aux->topo=p->topo;
 	aux->capacidade=p->capacidade;
 	destruir_pilha(aux);
