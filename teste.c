@@ -118,8 +118,8 @@ int imprimir_relatorio_final(rel *r){
   int aux=tamanho_relatorio(r);
   printf("%d\n",aux);
   while(!relatorio_vazio(r)){
-    //imprimir_cpf_inicio(r);
-    imprimir_todos_cpfs(r);
+    imprimir_cpf_inicio(r);
+    //imprimir_todos_cpfs(r);
     remover_noh_rel_inicio(r);
   }
 /*
