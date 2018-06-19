@@ -17,12 +17,14 @@ int ler_linhas_entrada(priority* pr, int n){
 
   int c,ct,p;
   char o,b[26];
-
+  char lixo;
   for (int i = 0; i < n; i++) {
     scanf("%d %d %d %c",&c,&ct,&p,&o);
+    scanf("%c\n",&lixo);
     setbuf(stdin, NULL);
     scanf("%[^\n]s",b);
     setbuf(stdin, NULL);
+    formatar_bem(b);
     inserir_cliente_fila(pr,c,ct,p,o,b);
   }//adicionei todos os clientes em suas filas
   return 1;
@@ -84,7 +86,7 @@ int gerar_imprimir_relatorio_parcial(pilha* p,rel *r,int k){
     printf("Guiche %d: %d\n",i+1,tamanho_pilha(aux));
   //  imprime_topo_pilha(aux);
 
-	  aux=inverter_pilha(aux);
+	//  aux=inverter_pilha(aux);
   //  trocar_i_de_pilha(p,i,aux);
   //  imprime_topo_pilha(aux);
     //aux é ponteiro para a pilha invertida;
@@ -116,9 +118,12 @@ int imprimir_relatorio_final(rel *r){
   int aux=tamanho_relatorio(r);
   printf("%d\n",aux);
   while(!relatorio_vazio(r)){
-    imprimir_cpf_inicio(r);
+    //imprimir_cpf_inicio(r);
+    imprimir_todos_cpfs(r);
     remover_noh_rel_inicio(r);
   }
+/*
+*/
   return 1;
 }
 int main(){

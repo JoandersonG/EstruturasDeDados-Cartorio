@@ -6,6 +6,7 @@ typedef struct sbem sbem;
 typedef struct lista_bens lista_bens;
 typedef struct node no;
 
+int formatar_bem(char * bem);
 int relatorio_vazio(rel *r);
 int tamanho_relatorio(rel *r);
 int elabora_noh_insere_noh(rel* r,int cpf);

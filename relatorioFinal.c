@@ -25,6 +25,26 @@ struct relatorio{
   int tamanho;
 };
 
+int formatar_bem(char * bem){
+  if(bem==NULL){
+    printf("Erro 1 em formatar_bem\n");
+    return -1;
+  }
+  int i=0;
+  while (i<strlen(bem)) {
+    if(bem[i]>=97 && bem[i]<=122){
+      //é uma letra minúscula
+      bem[i]-=32;
+    }
+    if(bem[i]==' ' && i!=0){
+      bem[i]=95;
+    }
+    i++;
+  }
+  /*
+  */
+  return 1;
+}
 int elabora_noh_insere_noh(rel* r,int cpf){
   if(r==NULL){
     printf("Erro 1 em insere_noh_elaborar_noh\n");
@@ -106,16 +126,22 @@ int decoda_entrada_rel(rel *r,int c, int ct, char o, char *b){
 //  printf("tamanho rel: %d\n",tamanho_relatorio(r));
 //  imprimir_todos_cpfs(r);
   no* aux=busca_cpf_rel(r,c);
-  inserir_lista_bens(aux->lb,o,b);
+  if(o=='T'){
+    inserir_lista_bens(aux->lb,'-',b);
+  }
+  else{
+    inserir_lista_bens(aux->lb,'+',b);
+  }
+
 //  printf("Em CPF: %d, está %s\n",c,b);
   //terceiro:*
   aux=busca_cpf_rel(r,ct);
   if(o=='T'){
-    inserir_lista_bens(aux->lb,'A',b);
+    inserir_lista_bens(aux->lb,'+',b);
     //printf("Em CPF: %d, está %s\n",ct,b);
   }
   else{
-    inserir_lista_bens(aux->lb,'T',b);
+    inserir_lista_bens(aux->lb,'-',b);
     //printf("Em CPF: %d, está %s\n",ct,b);
   }
   /*
@@ -201,7 +227,7 @@ int destruir_no(no* node){
   //aqui eu chamo:
   destruir_lista_bens(node->lb);
   free(node);
-  node=NULL;
+
   return 1;
 }
 int destruir_lista_bens(lista_bens* lb){
@@ -210,13 +236,15 @@ int destruir_lista_bens(lista_bens* lb){
     return -1;
   }
   sbem* aux;
-  while(lb->tamanho>1){
+/*  while(lb->tamanho>1){
   //  remover_sbem_inicio(lb->ini);
     aux=lb->ini;
     lb->ini=lb->ini->prox;
     free(aux);
     lb->tamanho--;
   }
+/*
+*/
   return 1;
 }
 int inserir_noh_no_rel_fin(rel* r,no n){
@@ -421,11 +449,18 @@ int imprimir_bens(lista_bens *lb){
   }
   int cont=1;
   char c;
-  lista_bens *aux=lb;
+/*  lista_bens *aux=lb;
   while(cont<=aux->tamanho){
     c=aux->ini->s;
     printf("%c %s\n",c,aux->ini->bem);
     aux->ini=aux->ini->prox;
+    cont++;
+  }
+*/
+  sbem *aux=lb->ini;
+  while(aux!=NULL){
+    printf("%c%s\n",aux->s,aux->bem);
+    aux=aux->prox;
     cont++;
   }
   return 1;
@@ -441,16 +476,20 @@ int remover_noh_rel_inicio(rel *r){
     printf("Erro 2 em remover_cpf_rel_ini\n");
     return -1;
   }
+  if(r->inicio==NULL){
+    printf("Erro 3 em remover_cpf_rel_ini\n");
+    return -1;
+  }
   no *aux=r->inicio;
   r->inicio=r->inicio->prox;
   r->fim->prox=r->inicio;
   r->inicio->ant=r->fim;
   r->tamanho--;
   //  para free (aux) [um nó]:
+
+
   destruir_no(aux);
-  destruir_lista_bens(aux->lb);
-  //  free(aux);
-  aux=NULL;
+
   return 1;
 }
 int remover_lista_bens_inicio(lista_bens* lb){
