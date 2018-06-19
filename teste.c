@@ -151,7 +151,7 @@ int main(){
   rel *r=criar_rel_fin();
 
   gerar_imprimir_relatorio_parcial(pi,r,m);
-/*  imprimir_relatorio_final(r);
+  imprimir_relatorio_final(r);
   //destruir tudo
   free(pi);
   free(r);

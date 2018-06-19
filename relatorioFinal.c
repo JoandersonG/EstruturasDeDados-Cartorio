@@ -103,20 +103,20 @@ int decoda_entrada_rel(rel *r,int c, int ct, char o, char *b){
     }
   }
   //cliente:
-  printf("tamanho rel: %d\n",tamanho_relatorio(r));
-  imprimir_todos_cpfs(r);
-/*  no* aux=busca_cpf_rel(r,c);
+//  printf("tamanho rel: %d\n",tamanho_relatorio(r));
+//  imprimir_todos_cpfs(r);
+  no* aux=busca_cpf_rel(r,c);
   inserir_lista_bens(aux->lb,o,b);
-/*  printf("Em CPF: %d, está %s\n",c,b);
+//  printf("Em CPF: %d, está %s\n",c,b);
   //terceiro:*
   aux=busca_cpf_rel(r,ct);
   if(o=='T'){
     inserir_lista_bens(aux->lb,'A',b);
-    printf("Em CPF: %d, está %s\n",ct,b);
+    //printf("Em CPF: %d, está %s\n",ct,b);
   }
   else{
     inserir_lista_bens(aux->lb,'T',b);
-    printf("Em CPF: %d, está %s\n",ct,b);
+    //printf("Em CPF: %d, está %s\n",ct,b);
   }
   /*
   */
@@ -238,7 +238,7 @@ int inserir_noh_no_rel_fin(rel* r,no n){
     r->inicio->prox=r->inicio;
     r->inicio->ant=r->inicio;
     r->tamanho++;
-    printf("Colocado %d num relatório vazio\n",node->cpf);
+  //  printf("Colocado %d num relatório vazio\n",node->cpf);
     return 1;
   }
   no *aux=r->inicio;
@@ -250,7 +250,7 @@ int inserir_noh_no_rel_fin(rel* r,no n){
     r->fim->prox=node;
     aux->ant=node;
     r->tamanho++;
-      printf("Colocado %d no inicio\n",node->cpf);
+  //    printf("Colocado %d no inicio\n",node->cpf);
     return 1;
   }
   int aux3=1;
@@ -268,12 +268,20 @@ int inserir_noh_no_rel_fin(rel* r,no n){
     node->ant=aux;
     r->inicio->ant=node;
     */
+    /*
     node->prox=aux;
     aux->ant->prox=node;
     node->ant=aux->ant;
     aux->ant=node;
     r->tamanho++;
-    printf("Colocado %d no fim\n",node->cpf);
+    */
+    node->prox=aux->prox;
+    aux->prox=node;
+    node->ant=aux;
+    r->fim=node;
+    r->tamanho++;
+    r->inicio->ant=node;
+  //  printf("Colocado %d no fim\n",node->cpf);
     return 1;
   }
   else{
@@ -286,7 +294,7 @@ int inserir_noh_no_rel_fin(rel* r,no n){
     node->prox=aux2;
     aux2->ant=node;
     r->tamanho++;
-    printf("Colocado %d no meio\n",node->cpf);
+  //  printf("Colocado %d no meio\n",node->cpf);
   }
   return 1;
 }
