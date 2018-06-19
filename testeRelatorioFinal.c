@@ -17,6 +17,8 @@ int main(){
   remover_noh_rel_inicio(r);
   imprimir_cpf_inicio(r);
   printf("Esperado 3: %d\n",tamanho_relatorio(r));
+  remover_noh_rel_inicio(r);
+  imprimir_cpf_inicio(r);
   destruir_relatorio(r);
 /*
 */

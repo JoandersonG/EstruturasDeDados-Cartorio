@@ -82,32 +82,44 @@ int decoda_entrada_rel(rel *r,int c, int ct, char o, char *b){
     printf("Erro 1 em decoda_entrada_rel\n");
     return -1;
   }
-  if(!existe_cpf_rel(r,c)){
+  if((!existe_cpf_rel(r,c)) && c!=0){
     //se não existe, crio nó com esse cpf
-  //    printf("Não existia o cpf %d, então, criado.\n",c);
+  //  printf("Não existia o cpf %d, então, criado.\n",c);
     no n;
     n.cpf=c;
     inserir_noh_no_rel_fin(r,n);
+    if(!existe_cpf_rel(r,c)){
+      printf("Erro 2 em decoda_entrada_rel\n");
+    }
   }
-  if(!existe_cpf_rel(r,ct)){
+  if((!existe_cpf_rel(r,ct)) && ct!=0){
     //se não existe, crio nó com esse cpf
-  //    printf("Não existia o cpf %d, então, criado.\n",ct);
+  //  printf("Não existia o cpf %d, então, criado.\n",ct);
     no nn;
     nn.cpf=ct;
     inserir_noh_no_rel_fin(r,nn);
+    if(!existe_cpf_rel(r,ct)){
+      printf("Erro 3 em decoda_entrada_rel\n");
+    }
   }
   //cliente:
-  no* aux=busca_cpf_rel(r,c);
+  printf("tamanho rel: %d\n",tamanho_relatorio(r));
+  imprimir_todos_cpfs(r);
+/*  no* aux=busca_cpf_rel(r,c);
   inserir_lista_bens(aux->lb,o,b);
-  //printf("Em CPF: %d, está %s\n",c,b);
-  //terceiro:
+/*  printf("Em CPF: %d, está %s\n",c,b);
+  //terceiro:*
   aux=busca_cpf_rel(r,ct);
   if(o=='T'){
     inserir_lista_bens(aux->lb,'A',b);
+    printf("Em CPF: %d, está %s\n",ct,b);
   }
   else{
     inserir_lista_bens(aux->lb,'T',b);
+    printf("Em CPF: %d, está %s\n",ct,b);
   }
+  /*
+  */
   return 1;
 }
 no*  busca_cpf_rel(rel* r, int cpf){
@@ -116,17 +128,58 @@ no*  busca_cpf_rel(rel* r, int cpf){
     no *n=NULL;
     return n;
   }
+  if(!existe_cpf_rel(r,cpf)){
+    printf("Erro 3 em busca_cpf_rel\n");
+    no *n=NULL;
+    return n;
+  }
   no *aux=r->inicio;
+
   int cont=1;
   while(cont<=r->tamanho && aux->cpf!=cpf){
     aux=aux->prox;
     cont++;
   }
+
   if(aux->cpf!=cpf){
     //não achou
+    printf("Erro 2 em busca_cpf_rel\n");
     aux=NULL;
     return aux;
   }
+  /*
+
+  if(aux->cpf==cpf){
+  //    printf("Cpf que eu quero: %d. Cpf que eu tenho: %d\n",cpf,aux->cpf);
+    return aux;
+  }
+  aux=aux->prox;
+  if(aux==NULL){
+    printf("Erro 3 busca_cpf_rel\n");
+    return aux;
+  }
+  while(aux!=r->inicio){
+  //  printf("Cpf que eu quero: %d. Cpf que eu tenho: %d\n",cpf,aux->cpf);
+    if(aux->cpf==cpf){
+      return aux;
+    }
+    aux=aux->prox;
+  }
+  aux=NULL;
+  /*
+
+  while(1){
+    if(aux->prox==r->inicio && aux->cpf!=cpf){
+      printf("Erro 2 em busca_cpf_rel\n");
+      aux=NULL;
+      return aux;
+    }
+    if(aux->cpf==cpf){
+      return aux;
+    }
+    aux=aux->prox;
+  }
+  */
   return aux;
 }
 int destruir_relatorio(rel *r){
@@ -176,7 +229,7 @@ int inserir_noh_no_rel_fin(rel* r,no n){
     printf("Erro 2 em inserir_noh_no_rel_fin\n");
     return -1;
   }
-  *node=n;
+  node->cpf=n.cpf;
   node->lb=criar_lista_bens();
   if(r->inicio==NULL)//vazia
   {
@@ -185,7 +238,7 @@ int inserir_noh_no_rel_fin(rel* r,no n){
     r->inicio->prox=r->inicio;
     r->inicio->ant=r->inicio;
     r->tamanho++;
-  //  printf("Colocado num relatório vazio\n");
+    printf("Colocado %d num relatório vazio\n",node->cpf);
     return 1;
   }
   no *aux=r->inicio;
@@ -197,7 +250,7 @@ int inserir_noh_no_rel_fin(rel* r,no n){
     r->fim->prox=node;
     aux->ant=node;
     r->tamanho++;
-    //  printf("Colocado no inicio\n");
+      printf("Colocado %d no inicio\n",node->cpf);
     return 1;
   }
   int aux3=1;
@@ -220,7 +273,7 @@ int inserir_noh_no_rel_fin(rel* r,no n){
     node->ant=aux->ant;
     aux->ant=node;
     r->tamanho++;
-    //printf("Colocado no fim\n");
+    printf("Colocado %d no fim\n",node->cpf);
     return 1;
   }
   else{
@@ -233,7 +286,7 @@ int inserir_noh_no_rel_fin(rel* r,no n){
     node->prox=aux2;
     aux2->ant=node;
     r->tamanho++;
-    //printf("Colocado no meio\n");
+    printf("Colocado %d no meio\n",node->cpf);
   }
   return 1;
 }
@@ -248,6 +301,10 @@ int inserir_lista_bens(lista_bens* lb, char s,char *bem){
   strcpy(sbbem.bem,bem);
 
   sbem *ss=(sbem*)malloc(sizeof(sbem));
+  if(ss==NULL){
+    printf("Erro 2 em inserir_lista_bens\n");
+    return -1;
+  }
   *ss=sbbem;
   //se tiver vazia:
   if(lb->tamanho==0){
@@ -275,6 +332,7 @@ int inserir_lista_bens(lista_bens* lb, char s,char *bem){
   }//saio quando s->bem < aux ou aux==NULL;
   if(aux->prox==NULL){
     //coloco no fim
+    lb->tamanho++;
     lb->fim->prox=ss;
     lb->fim=ss;
     ss->prox=NULL;
@@ -289,7 +347,9 @@ int inserir_lista_bens(lista_bens* lb, char s,char *bem){
   //  sbem* aux2=aux->prox;
   ss->prox=aux->prox;
   aux->prox=ss;
-
+  lb->tamanho++;
+  /*
+  */
   return 1;
 }
 int existe_cpf_rel(rel *r,int cpf){
@@ -337,6 +397,15 @@ int imprimir_cpf_inicio(rel *r){
   imprimir_bens(n->lb);
   return 1;
 }
+int imprimir_todos_cpfs(rel *r){
+  no* aux=r->inicio->prox;
+  printf("Cpf: %d\n",r->inicio->cpf);
+  while(aux!=r->inicio){
+    printf("Cpf: %d\n",aux->cpf);
+    aux=aux->prox;
+  }
+  return 1;
+}
 int imprimir_bens(lista_bens *lb){
   if(lb==NULL){
     printf("Erro 1 em imprimir_bens\n");
@@ -344,10 +413,11 @@ int imprimir_bens(lista_bens *lb){
   }
   int cont=1;
   char c;
-  while(cont<=lb->tamanho){
-    c=lb->ini->s;
-    printf("%c %s\n",c,lb->ini->bem);
-    lb->ini=lb->ini->prox;
+  lista_bens *aux=lb;
+  while(cont<=aux->tamanho){
+    c=aux->ini->s;
+    printf("%c %s\n",c,aux->ini->bem);
+    aux->ini=aux->ini->prox;
     cont++;
   }
   return 1;

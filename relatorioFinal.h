@@ -20,6 +20,7 @@ int inserir_noh_no_rel_fin(rel* r,no n);
 int inserir_lista_bens(lista_bens* lb, char s,char *bem);
 int existe_cpf_rel(rel *r,int cpf);
 no* mostrar_cpf_ordenado(rel *r);
+int imprimir_todos_cpfs(rel *r);
 int imprimir_cpf_inicio(rel *r);
 int imprimir_bens(lista_bens *lb);
 int remover_noh_rel_inicio(rel *r);

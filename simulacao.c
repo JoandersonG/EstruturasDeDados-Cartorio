@@ -78,15 +78,20 @@ int gerar_imprimir_relatorio_parcial(pilha* p,rel *r,int k){
   for (int i = 0; i < k; i++) {
     aux=endereco_pilha(p,i);
     printf("Guiche %d: %d\n",i+1,tamanho_pilha(aux));
-  //  imprime_topo_pilha(aux);
-  //  aux=inverter_pilha(aux,tamanho_pilha(aux));
-  //  imprime_topo_pilha(aux);
+    imprime_topo_pilha(aux);
+    aux=inverter_pilha(aux);
+  //  trocar_i_de_pilha(p,i,aux);
+    imprime_topo_pilha(aux);
     //aux é ponteiro para a pilha invertida;
     while(!pilha_vazia(aux)){
       mostrar_topo_pilha(aux,&cpf,&cpf3,&o,b);
   //      printf("Rel parc%s\n",b);
-      gerar_relatorio_final(r,cpf,cpf3,o,b);
       remover_pilha(aux);
+      if(cpf==0){
+        continue;//cpf==0 é erro
+      }
+      gerar_relatorio_final(r,cpf,cpf3,o,b);
+
     //  imprimir:
       printf("[%d,%d,%c,%s]\n",cpf,cpf3,o,b);
     }

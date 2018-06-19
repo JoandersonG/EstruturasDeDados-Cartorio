@@ -53,6 +53,7 @@ int inserir_cliente(fila *f, cliente c){
 	}
 
   //	f->fim=cli;
+
 	cli->prox=NULL;
 	f->tamanho++;
 

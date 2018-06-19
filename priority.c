@@ -56,9 +56,10 @@ int elaborar_elem_adicionar_elem_pri(priority* p,int cpf, int cpf3, int priorida
 	}//encontrei a prioridade dele
 
 	if(prioridade!=aux->prioridade){
-	//	printf("Erro 3: prioridade inexistente\n");
+		printf("Erro 3: prioridade inexistente\n");
 		return -1;//prioridade inexistente
 	}
+
 	int et=elaborar_cliente_inserir_cliente(aux->ponf,cpf,cpf3,prioridade,op,bem);//inseri ele em sua fila correta
   //	printf("Inserido cliente de cpf: %d na prioridade %d\n",c.cpf,aux->prioridade);
 	if(et==-1){
@@ -68,6 +69,9 @@ int elaborar_elem_adicionar_elem_pri(priority* p,int cpf, int cpf3, int priorida
 	return 1;
 }
 int remover_frente_pri(priority* p){
+	if(p==NULL){
+		printf("Erro 1 em remover_frente_pri\n");
+	}
 	priority* aux=p;
 
 	while(aux->prox!=NULL && fila_vazia(aux->ponf))
@@ -76,6 +80,7 @@ int remover_frente_pri(priority* p){
 	}//aqui eu saí no último elemento ou no certo
 	if(fila_vazia(aux->ponf))
 	{
+		printf("Erro 2 em remover_frente_pri\n");
 		return -1;//sem clientes para remover
 	}
 	remover_cliente(aux->ponf);
@@ -92,6 +97,7 @@ int mostrar_frente_pri(priority *p,int *cpf,int *cpf3, int* prioridade,char *o,c
 	*prioridade=c.prioridade;
 	*o=c.op;
 	strcpy(b,c.bem);
+	//printf("Mostrando: %d,%d,%d,%c,%s\n",*cpf,*cpf3,*prioridade,*o,b);
 	return 1;
 }
 cliente enviar_guiche(priority* p){
