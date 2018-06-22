@@ -114,6 +114,9 @@ int imprimir_relatorio_final(rel *r){
     printf("Erro 1 em imprimir_relatorio_final\n");
     return -1;
   }
+  printf(" Teste: \n");
+  imprimir_todos_cpfs(r);
+  printf(" Fim do Teste \n");
   printf("-:| RELATÓRIO FINAL |:-\n");  //falta o k;
   int aux=tamanho_relatorio(r);
   printf("%d\n",aux);

@@ -74,14 +74,24 @@ int tamanho_relatorio(rel *r){
     printf("Erro 1 em tamanho_relatorio\n");
     return -1;
   }
-  return r->tamanho;
+  int cont=1;
+  if(r->inicio==NULL){
+    return 0;
+  }
+  no* aux=r->inicio->prox;
+  while(aux!=r->inicio){
+    aux=aux->prox;
+    cont++;
+  }
+  return cont;
+  //return r->tamanho;
 }
 int relatorio_vazio(rel *r){
   if(r==NULL){
     printf("Erro 1 em relatorio_vazio\n");
     return -1;
   }
-  if(r->tamanho==0){
+  if(r->inicio==NULL){
     return 1;
   }
   return 0;
@@ -123,26 +133,31 @@ int decoda_entrada_rel(rel *r,int c, int ct, char o, char *b){
     }
   }
   //cliente:
-//  printf("tamanho rel: %d\n",tamanho_relatorio(r));
-//  imprimir_todos_cpfs(r);
-  no* aux=busca_cpf_rel(r,c);
-  if(o=='T'){
-    inserir_lista_bens(aux->lb,'-',b);
-  }
-  else{
-    inserir_lista_bens(aux->lb,'+',b);
+  //  printf("tamanho rel: %d\n",tamanho_relatorio(r));
+  //  imprimir_todos_cpfs(r);
+  no* aux;
+  if(c!=0){
+    aux=busca_cpf_rel(r,c);
+    if(o=='0'){
+      inserir_lista_bens(aux->lb,'-',b);
+    }
+    else{
+      inserir_lista_bens(aux->lb,'+',b);
+    }
   }
 
-//  printf("Em CPF: %d, está %s\n",c,b);
+  //  printf("Em CPF: %d, está %s\n",c,b);
   //terceiro:*
-  aux=busca_cpf_rel(r,ct);
-  if(o=='T'){
-    inserir_lista_bens(aux->lb,'+',b);
-    //printf("Em CPF: %d, está %s\n",ct,b);
-  }
-  else{
-    inserir_lista_bens(aux->lb,'-',b);
-    //printf("Em CPF: %d, está %s\n",ct,b);
+  if(ct!=0){
+    aux=busca_cpf_rel(r,ct);
+    if(o=='0'){
+      inserir_lista_bens(aux->lb,'+',b);
+      //printf("Em CPF: %d, está %s\n",ct,b);
+    }
+    else{
+      inserir_lista_bens(aux->lb,'-',b);
+      //printf("Em CPF: %d, está %s\n",ct,b);
+    }
   }
   /*
   */
@@ -213,7 +228,7 @@ int destruir_relatorio(rel *r){
     printf("Erro 1 em destruir_relatorio\n");
     return -1;
   }
-  while (r->tamanho>1) {
+  while (r->tamanho>0) {
     remover_noh_rel_inicio(r);
   }
   free(r);
@@ -236,15 +251,16 @@ int destruir_lista_bens(lista_bens* lb){
     return -1;
   }
   sbem* aux;
-/*  while(lb->tamanho>1){
+  while(lb->tamanho>0){
   //  remover_sbem_inicio(lb->ini);
     aux=lb->ini;
     lb->ini=lb->ini->prox;
     free(aux);
     lb->tamanho--;
   }
-/*
-*/
+  free(lb);
+  /*
+  */
   return 1;
 }
 int inserir_noh_no_rel_fin(rel* r,no n){
@@ -370,7 +386,7 @@ int inserir_lista_bens(lista_bens* lb, char s,char *bem){
     //coloco no fim
     lb->tamanho++;
     lb->fim->prox=ss;
-    lb->fim=ss;
+    lb->fim=ss; //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     ss->prox=NULL;
     return 1;
   }
@@ -436,7 +452,9 @@ int imprimir_cpf_inicio(rel *r){
 int imprimir_todos_cpfs(rel *r){
   no* aux=r->inicio->prox;
   printf("Cpf: %d\n",r->inicio->cpf);
+  int cont=1;
   while(aux!=r->inicio){
+    printf("%d\n",cont++);
     printf("Cpf: %d\n",aux->cpf);
     aux=aux->prox;
   }
@@ -456,6 +474,7 @@ int imprimir_bens(lista_bens *lb){
     aux->ini=aux->ini->prox;
     cont++;
   }
+  /*
 */
   sbem *aux=lb->ini;
   while(aux!=NULL){
@@ -480,14 +499,28 @@ int remover_noh_rel_inicio(rel *r){
     printf("Erro 3 em remover_cpf_rel_ini\n");
     return -1;
   }
+  /*
   no *aux=r->inicio;
   r->inicio=r->inicio->prox;
   r->fim->prox=r->inicio;
   r->inicio->ant=r->fim;
   r->tamanho--;
+*/
+  no *aux=r->inicio;
+  if(aux->prox==aux){
+    //aux é o único nó
+    r->inicio=NULL;
+    r->fim=NULL;
+    r->tamanho=0;
+  }
+  else{
+    r->inicio=r->inicio->prox;
+    r->fim->prox=r->inicio;
+    r->inicio->ant=r->fim;
+    r->tamanho--;
+  }
+
   //  para free (aux) [um nó]:
-
-
   destruir_no(aux);
 
   return 1;
