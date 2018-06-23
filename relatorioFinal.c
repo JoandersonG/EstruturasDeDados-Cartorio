@@ -138,7 +138,7 @@ int decoda_entrada_rel(rel *r,int c, int ct, char o, char *b){
   no* aux;
   if(c!=0){
     aux=busca_cpf_rel(r,c);
-    if(o=='0'){
+    if(o=='T'){
       inserir_lista_bens(aux->lb,'-',b);
     }
     else{
@@ -150,7 +150,7 @@ int decoda_entrada_rel(rel *r,int c, int ct, char o, char *b){
   //terceiro:*
   if(ct!=0){
     aux=busca_cpf_rel(r,ct);
-    if(o=='0'){
+    if(o=='T'){
       inserir_lista_bens(aux->lb,'+',b);
       //printf("Em CPF: %d, está %s\n",ct,b);
     }
@@ -366,10 +366,53 @@ int inserir_lista_bens(lista_bens* lb, char s,char *bem){
     ss->prox=NULL;
     return 1;
   }
+  sbem *aux=lb->ini;
+  if(strcmp(ss->bem,aux->bem)>=0){
+    //coloco no início
+    ss->prox=lb->ini;
+    lb->tamanho++;
+    lb->ini=ss;
+    return 1;
+  }
+  while(aux->prox!=NULL && strcmp(ss->bem,aux->prox->bem)>=0){
+    aux=aux->prox;
+  }
+  //coloco no meio
+  //coloco no fim
+  ss->prox=aux->prox;
+  aux->prox=ss;
+  lb->tamanho++;
+  return 1;
+}
+/*
+int inserir_lista_bens(lista_bens* lb, char s,char *bem){
+  if(lb==NULL){
+    printf("Erro 1 em inserir_sbem\n");
+    return -1;
+  }
+
+  sbem sbbem;
+  sbbem.s=s;
+  strcpy(sbbem.bem,bem);
+
+  sbem *ss=(sbem*)malloc(sizeof(sbem));
+  if(ss==NULL){
+    printf("Erro 2 em inserir_lista_bens\n");
+    return -1;
+  }
+  *ss=sbbem;
+  //se tiver vazia:
+  if(lb->tamanho==0){
+    lb->tamanho++;
+    lb->ini=ss;
+    lb->fim=ss;
+    ss->prox=NULL;
+    return 1;
+  }
     //bens ordenados por ordem lexicográfica
 
   sbem *aux=lb->ini;
-
+/*
   if(strcmp(ss->bem,aux->bem)<0){
     //no inicio
     ss->prox=lb->ini;
@@ -378,7 +421,8 @@ int inserir_lista_bens(lista_bens* lb, char s,char *bem){
     return 1;
 
   }
-
+  /*
+//----------------------------------------------------------------
   while(aux->prox!=NULL && strcmp(ss->bem,aux->prox->bem)>=0){
     aux=aux->prox;
   }//saio quando s->bem < aux ou aux==NULL;
@@ -390,6 +434,29 @@ int inserir_lista_bens(lista_bens* lb, char s,char *bem){
     ss->prox=NULL;
     return 1;
   }
+//----------------------------------------------------------------
+
+while(aux!=NULL && strcmp(ss->bem,aux->bem)>=0){
+  aux=aux->prox;
+}//saio quando encontrar o locar para inserir
+if(aux==NULL){
+  //coloco no fim:
+  lb->fim->prox=ss;
+  lb->tamanho++;
+  ss->prox=NULL;
+  lb->fim=ss;
+  return 1;
+}
+
+//coloco no meio
+lb->tamanho++;
+ss->prox=aux->prox;
+aux->prox=ss;
+
+
+
+/*
+
 
   //no meio
 
@@ -401,9 +468,10 @@ int inserir_lista_bens(lista_bens* lb, char s,char *bem){
   aux->prox=ss;
   lb->tamanho++;
   /*
-  */
+
   return 1;
 }
+*/
 int existe_cpf_rel(rel *r,int cpf){
   if(r==NULL){
     printf("Erro 1 em existe_cpf_rel\n");
@@ -445,7 +513,7 @@ int imprimir_cpf_inicio(rel *r){
     return -1;
   }
   no* n=mostrar_cpf_ordenado(r);
-  printf("%d: %d\n",n->cpf,n->lb->tamanho);
+  printf("-:[ %d: %d\n",n->cpf,n->lb->tamanho);
   imprimir_bens(n->lb);
   return 1;
 }
@@ -467,7 +535,7 @@ int imprimir_bens(lista_bens *lb){
   }
   int cont=1;
   char c;
-/*  lista_bens *aux=lb;
+  /*  lista_bens *aux=lb;
   while(cont<=aux->tamanho){
     c=aux->ini->s;
     printf("%c %s\n",c,aux->ini->bem);
@@ -475,12 +543,12 @@ int imprimir_bens(lista_bens *lb){
     cont++;
   }
   /*
-*/
+  */
   sbem *aux=lb->ini;
   while(aux!=NULL){
-    printf("%c%s\n",aux->s,aux->bem);
+    printf("  %c%s\n",aux->s,aux->bem);
     aux=aux->prox;
-    cont++;
+  //  cont++;
   }
   return 1;
 }
@@ -505,7 +573,7 @@ int remover_noh_rel_inicio(rel *r){
   r->fim->prox=r->inicio;
   r->inicio->ant=r->fim;
   r->tamanho--;
-*/
+  */
   no *aux=r->inicio;
   if(aux->prox==aux){
     //aux é o único nó
