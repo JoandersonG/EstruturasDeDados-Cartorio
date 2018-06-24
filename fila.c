@@ -3,8 +3,16 @@
 #include <string.h>
 #include "fila.h"
 
-typedef struct client cliente;
-typedef struct queue fila;
+struct client{
+	int cpf,cpf3,prioridade;
+	char op;
+	char bem[26];
+	struct client *prox;
+};
+struct queue{
+	cliente *inicio, *fim;
+	int tamanho;
+};
 
 fila* criar_fila(){
 	fila *f= (fila*) malloc(sizeof(fila));
@@ -90,17 +98,22 @@ int remover_cliente(fila *f){
 	return 1;
 }
 
-cliente mostrar_cliente(fila *f){
+int mostrar_cliente(fila *f,int* cpf, int* cpf3, int *prioridade, char *op, char *bem){
 	//se f->fim for NULL, então está vazia e retorna
 
 	if(f->inicio==NULL){
 		printf("Erro 1 mostrar_cliente\n");
-		cliente c;
-		c.cpf=0;
-		c.cpf3=0;
-		return c;
+		*cpf=0;
+		*cpf3=0;//ignorar cpf 0
+		*op='I';//ignorar
+		*prioridade=0;//ignorar
+		return -1;
 	}
 	cliente *cli = f->inicio;
-
-	return *cli;
+	*cpf=cli->cpf;
+	*cpf3=cli->cpf3;
+	*op=cli->op;
+	*prioridade=cli->prioridade;
+	strcpy(bem,cli->bem);
+	return 1;
 }

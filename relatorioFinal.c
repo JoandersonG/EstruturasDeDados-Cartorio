@@ -30,7 +30,7 @@ int formatar_bem(char * bem){
     printf("Erro 1 em formatar_bem\n");
     return -1;
   }
-  int i=0;
+  unsigned int i=0;
   while (i<strlen(bem)) {
     if(bem[i]>=97 && bem[i]<=122){
       //é uma letra minúscula
@@ -188,39 +188,39 @@ no*  busca_cpf_rel(rel* r, int cpf){
     aux=NULL;
     return aux;
   }
-  /*
-
-  if(aux->cpf==cpf){
-  //    printf("Cpf que eu quero: %d. Cpf que eu tenho: %d\n",cpf,aux->cpf);
-    return aux;
-  }
-  aux=aux->prox;
-  if(aux==NULL){
-    printf("Erro 3 busca_cpf_rel\n");
-    return aux;
-  }
-  while(aux!=r->inicio){
-  //  printf("Cpf que eu quero: %d. Cpf que eu tenho: %d\n",cpf,aux->cpf);
-    if(aux->cpf==cpf){
-      return aux;
-    }
-    aux=aux->prox;
-  }
-  aux=NULL;
-  /*
-
-  while(1){
-    if(aux->prox==r->inicio && aux->cpf!=cpf){
-      printf("Erro 2 em busca_cpf_rel\n");
-      aux=NULL;
-      return aux;
-    }
-    if(aux->cpf==cpf){
-      return aux;
-    }
-    aux=aux->prox;
-  }
-  */
+  // /*
+  //
+  // if(aux->cpf==cpf){
+  // //    printf("Cpf que eu quero: %d. Cpf que eu tenho: %d\n",cpf,aux->cpf);
+  //   return aux;
+  // }
+  // aux=aux->prox;
+  // if(aux==NULL){
+  //   printf("Erro 3 busca_cpf_rel\n");
+  //   return aux;
+  // }
+  // while(aux!=r->inicio){
+  // //  printf("Cpf que eu quero: %d. Cpf que eu tenho: %d\n",cpf,aux->cpf);
+  //   if(aux->cpf==cpf){
+  //     return aux;
+  //   }
+  //   aux=aux->prox;
+  // }
+  // aux=NULL;
+  //
+  //
+  // while(1){
+  //   if(aux->prox==r->inicio && aux->cpf!=cpf){
+  //     printf("Erro 2 em busca_cpf_rel\n");
+  //     aux=NULL;
+  //     return aux;
+  //   }
+  //   if(aux->cpf==cpf){
+  //     return aux;
+  //   }
+  //   aux=aux->prox;
+  // }
+  // */
   return aux;
 }
 int destruir_relatorio(rel *r){
@@ -384,94 +384,7 @@ int inserir_lista_bens(lista_bens* lb, char s,char *bem){
   lb->tamanho++;
   return 1;
 }
-/*
-int inserir_lista_bens(lista_bens* lb, char s,char *bem){
-  if(lb==NULL){
-    printf("Erro 1 em inserir_sbem\n");
-    return -1;
-  }
 
-  sbem sbbem;
-  sbbem.s=s;
-  strcpy(sbbem.bem,bem);
-
-  sbem *ss=(sbem*)malloc(sizeof(sbem));
-  if(ss==NULL){
-    printf("Erro 2 em inserir_lista_bens\n");
-    return -1;
-  }
-  *ss=sbbem;
-  //se tiver vazia:
-  if(lb->tamanho==0){
-    lb->tamanho++;
-    lb->ini=ss;
-    lb->fim=ss;
-    ss->prox=NULL;
-    return 1;
-  }
-    //bens ordenados por ordem lexicográfica
-
-  sbem *aux=lb->ini;
-/*
-  if(strcmp(ss->bem,aux->bem)<0){
-    //no inicio
-    ss->prox=lb->ini;
-    lb->ini=ss;
-    lb->tamanho++;
-    return 1;
-
-  }
-  /*
-//----------------------------------------------------------------
-  while(aux->prox!=NULL && strcmp(ss->bem,aux->prox->bem)>=0){
-    aux=aux->prox;
-  }//saio quando s->bem < aux ou aux==NULL;
-  if(aux->prox==NULL){
-    //coloco no fim
-    lb->tamanho++;
-    lb->fim->prox=ss;
-    lb->fim=ss; //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    ss->prox=NULL;
-    return 1;
-  }
-//----------------------------------------------------------------
-
-while(aux!=NULL && strcmp(ss->bem,aux->bem)>=0){
-  aux=aux->prox;
-}//saio quando encontrar o locar para inserir
-if(aux==NULL){
-  //coloco no fim:
-  lb->fim->prox=ss;
-  lb->tamanho++;
-  ss->prox=NULL;
-  lb->fim=ss;
-  return 1;
-}
-
-//coloco no meio
-lb->tamanho++;
-ss->prox=aux->prox;
-aux->prox=ss;
-
-
-
-/*
-
-
-  //no meio
-
-  //preciso disso???
-  aux=aux->prox;
-  //
-  //  sbem* aux2=aux->prox;
-  ss->prox=aux->prox;
-  aux->prox=ss;
-  lb->tamanho++;
-  /*
-
-  return 1;
-}
-*/
 int existe_cpf_rel(rel *r,int cpf){
   if(r==NULL){
     printf("Erro 1 em existe_cpf_rel\n");
@@ -533,20 +446,9 @@ int imprimir_bens(lista_bens *lb){
     printf("Erro 1 em imprimir_bens\n");
     return -1;
   }
-  int cont=1;
-  char c;
-  /*  lista_bens *aux=lb;
-  while(cont<=aux->tamanho){
-    c=aux->ini->s;
-    printf("%c %s\n",c,aux->ini->bem);
-    aux->ini=aux->ini->prox;
-    cont++;
-  }
-  /*
-  */
   sbem *aux=lb->ini;
   while(aux!=NULL){
-    printf("  %c%s\n",aux->s,aux->bem);
+    printf("    %c%s\n",aux->s,aux->bem);
     aux=aux->prox;
   //  cont++;
   }

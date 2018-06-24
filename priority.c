@@ -86,12 +86,13 @@ int remover_frente_pri(priority* p){
 	remover_cliente(aux->ponf);
 	return 1;
 }
+/*
 int mostrar_frente_pri(priority *p,int *cpf,int *cpf3, int* prioridade,char *o,char* b){
 	if(p==NULL){
 		printf("Erro 1 em enviar_atend\n");
 		return -1;
 	}
-	cliente c=enviar_guiche(p);
+	mostrar_frente_pri(p,cpf,cpf3,prioridade,o,b);
 	*cpf=c.cpf;
 	*cpf3=c.cpf3;
 	*prioridade=c.prioridade;
@@ -99,26 +100,26 @@ int mostrar_frente_pri(priority *p,int *cpf,int *cpf3, int* prioridade,char *o,c
 	strcpy(b,c.bem);
 	//printf("Mostrando: %d,%d,%d,%c,%s\n",*cpf,*cpf3,*prioridade,*o,b);
 	return 1;
-}
-cliente enviar_guiche(priority* p){
+
+*/
+int mostrar_frente_pri(priority* p,int *cpf,int *cpf3, int* prioridade,char *o,char* b){
 	if(p==NULL){
-		printf("Erro 1 em enviar_guiche\n");
+		printf("Erro 1 em mostrar_frente_pri\n");
+		return -1;
 	}
-	cliente cli;
 	priority* aux=p;
 
 	while (1) {
 		if(aux->prox==NULL){
 			if(fila_vazia(aux->ponf)){
-				cli.cpf=0;
-				cli.cpf3=0;//ignorar cpf 0
-				cli.op='I';//ignorar
-				cli.prioridade=0;//ignorar
-				cli.prox=NULL;
-				return cli;
+				*cpf=0;
+				*cpf3=0;//ignorar cpf 0
+				*o='I';//ignorar
+				*prioridade=0;//ignorar
+				return -1;
 			}
 			else{
-				cli= mostrar_cliente(aux->ponf);
+				mostrar_cliente(aux->ponf,cpf,cpf3,prioridade,o,b);
 				break;
 			}
 		}
@@ -128,18 +129,12 @@ cliente enviar_guiche(priority* p){
 				continue;
 			}
 			else{
-				cli= mostrar_cliente(aux->ponf);
+				mostrar_cliente(aux->ponf,cpf,cpf3,prioridade,o,b);
 				break;
 			}
 		}
 	}
-
-  //	cli=mostrar_cliente(aux->ponf);
-  //	printf("Enviei (e removi) cliente de cpf: %d\n",cli.cpf);
-	//	int aux2=remover_cliente(aux->ponf);
-  //	if(aux2==-1)
-  //		printf("Erro em enviar_guiche\n");
-	return cli;
+	return 1;
 }
 priority* destruir_fila_pri(priority* p){
 	//tou removendo os elementos???
@@ -152,24 +147,13 @@ priority* destruir_fila_pri(priority* p){
 	}
 	return p;
 }
-/*
-int exibir_todos(priority* p){
-	cliente cli;
-	while(p!=NULL){
-		while(p->ponf->inicio!=NULL){
-			cli=mostrar_cliente(p->ponf);
-			printf("%d\n",cli.cpf);
-			remover_cliente(p->ponf);
-		}
-		p=p->prox;
-	}
-	return 1;
-}
-*/
+
 int fila_pri_vazia(priority *p){
-	cliente c=enviar_guiche(p);
-	//se c.prioridade ==0, então entrou no caso em que não há elementos no guiche
-	if(c.prioridade==0){
+	int c=0,c3=0,pri=1;
+	char o,bem[26]=" ";
+	mostrar_frente_pri(p,&c,&c3,&pri,&o,bem);
+	//se pri==0, então entrou no caso em que não há elementos na pilha
+	if(pri==0){
 		return 1;
 	}
 	return 0;
