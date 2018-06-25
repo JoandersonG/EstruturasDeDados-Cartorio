@@ -1,6 +1,0 @@
-3 3 5
-1125 861 2 A Comandos em acao colecao
-601 1125 1 T imovel no Lago Sul
-861 1125 3 A Toyota Hilux SW4
-861 601 3 T Carro Hotwheels
-1125 601 2 A iPhone X

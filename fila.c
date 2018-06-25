@@ -1,3 +1,8 @@
+/*
+		Joanderson Gonçalves Santos
+		Tayná Valverde Rosa
+*/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -14,7 +19,8 @@ struct queue{
 	int tamanho;
 };
 
-fila* criar_fila(){
+fila* criar_fila()
+{
 	fila *f= (fila*) malloc(sizeof(fila));
 	if(f==NULL){
 		printf("Erro: fila nula\n");
@@ -25,7 +31,8 @@ fila* criar_fila(){
 	return f;
 }
 
-fila* destruir_fila(fila *f){
+fila* destruir_fila(fila *f)
+{
 	if(f==NULL){
 		printf("Erro 1 destruir_fila\n");
 		return f;
@@ -39,14 +46,16 @@ fila* destruir_fila(fila *f){
 	return f;
 }
 
-int fila_vazia(fila *f){
+int fila_vazia(fila *f)
+{
 	if(f==NULL) return -1;
 	if(f->tamanho==0)
 		return 1;
 	return 0;
 }
 
-int inserir_cliente(fila *f, cliente c){
+int inserir_cliente(fila *f, cliente c)
+{
 	cliente *cli = (cliente*) malloc (sizeof(cliente));
 	if(cli==NULL) return -1;
 	*cli = c;
@@ -59,15 +68,12 @@ int inserir_cliente(fila *f, cliente c){
 		f->fim->prox=cli;
 		f->fim=f->fim->prox;
 	}
-
-  //	f->fim=cli;
-
 	cli->prox=NULL;
 	f->tamanho++;
-
 	return 1;
 }
-int elaborar_cliente_inserir_cliente(fila *f,int cpf, int cpf3, int prioridade, char op, char *bem){
+int elaborar_cliente_inserir_cliente(fila *f,int cpf, int cpf3, int prioridade, char op, char *bem)
+{
 	if(f==NULL){
 		printf("Erro 1 em elaborar_cliente_inserir_cliente\n");
 	}
@@ -81,8 +87,9 @@ int elaborar_cliente_inserir_cliente(fila *f,int cpf, int cpf3, int prioridade, 
 	inserir_cliente(f,c);
 	return 1;
 }
-int remover_cliente(fila *f){
 
+int remover_cliente(fila *f)
+{
 	if (f==NULL) {
 		printf("Erro 1 remover_cliente");
 		return -1;//se a fila é inválida e nula
@@ -98,9 +105,9 @@ int remover_cliente(fila *f){
 	return 1;
 }
 
-int mostrar_cliente(fila *f,int* cpf, int* cpf3, int *prioridade, char *op, char *bem){
-	//se f->fim for NULL, então está vazia e retorna
-
+int mostrar_cliente(fila *f,int* cpf, int* cpf3, int *prioridade, char *op, char *bem)
+{
+	//se f->inicio for NULL, então está vazia e retorna
 	if(f->inicio==NULL){
 		printf("Erro 1 mostrar_cliente\n");
 		*cpf=0;
